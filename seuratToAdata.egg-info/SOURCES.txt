@@ -1,9 +1,14 @@
 README.md
+env.yaml
+requirements.txt
 setup.py
+sync_pypi
 bin/seuratToAdata
+bin/seuratToloom.R
 seuratToAdata/__init__.py
 seuratToAdata.egg-info/PKG-INFO
 seuratToAdata.egg-info/SOURCES.txt
 seuratToAdata.egg-info/dependency_links.txt
 seuratToAdata.egg-info/requires.txt
 seuratToAdata.egg-info/top_level.txt
+seuratToAdata/__pycache__/__init__.cpython-37.pyc
