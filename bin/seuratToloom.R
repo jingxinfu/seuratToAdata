@@ -34,6 +34,11 @@ main = function(){
     args <- parseInput()
     seurat_obj <- readRDS(args$rds)
     if(args$RNA)seurat_obj <-seurat_obj$RNA
+
+    if(dim(seurat_obj$RNA@meta.features)[2] ==0){
+        seurat_obj <- FindVariableFeatures(object = seurat_obj)
+    }
+
     seurat_obj <- replaceNA(seurat_obj=seurat_obj)
     loom_obj <- as.loom(seurat_obj, filename = args$output,
                         overwrite=TRUE,
