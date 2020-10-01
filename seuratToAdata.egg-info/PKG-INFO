@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: seuratToAdata
-Version: 0.0.2
+Version: 0.0.4
 Summary: Convert seurat obj to Adata
 Home-page: https://jingxinfu.github.io/seuratToAdata
 Author: Jingxin Fu

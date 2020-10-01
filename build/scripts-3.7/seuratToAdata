@@ -25,22 +25,29 @@ if __name__ == "__main__":
         'rds', help="Use - for STDIN or path for seurat obj(*.rds file)")
     parser.add_argument('-o', '--output', required=True,
                         help='Specify path to write the results')
-
     parser.add_argument('--RNA', action='store_true',
                         help='Whether is store in the RNA slot')
-    parser.add_argument('--assay',default='RNA',help='Which assay you want to save?')
+
     args = parser.parse_args()
     exec_path = os.path.abspath(os.path.dirname(__file__))
     print('==Convert RDS to Loom==')
-    cmds = f"Rscript {exec_path}/seuratToloom.R {args.rds} --assay {args.assay} -o {args.output}.loom"
+    cmds = f"Rscript {exec_path}/seuratToloom.R {args.rds} -o {args.output}"
     if args.RNA:
         cmds = cmds+' --RNA'
 
     subprocess.run(cmds,shell=True)
     print('==Convert Loom to Adata==')
-    adata = sc.read_loom(args.output+'.loom')
+    if os.path.isfile(args.output+'.integrated.loom'):
+        adata = sc.read_loom(args.output+'.integrated.loom')
+        adata.raw = sc.read_loom(args.output+'.RNA.loom')
+        
+        print('==Remove integrated file==')
+        subprocess.run(f"rm -f {args.output}.integrated.loom", shell=True)
+    else:
+        adata = sc.read_loom(args.output+'.RNA.loom')
+        
     adata.write(args.output+'.h5ad')
     print('==Remove Loom file==')
-    subprocess.run(f"rm -f {args.output}.loom", shell=True)
+    subprocess.run(f"rm -f {args.output}.RNA.loom", shell=True)
     print('==Finish==')
     

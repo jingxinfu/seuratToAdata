@@ -5,6 +5,8 @@ setup.py
 sync_pypi
 bin/seuratToAdata
 bin/seuratToloom.R
+bin/.ipynb_checkpoints/seuratToAdata-checkpoint
+bin/.ipynb_checkpoints/seuratToloom-checkpoint.R
 seuratToAdata/__init__.py
 seuratToAdata.egg-info/PKG-INFO
 seuratToAdata.egg-info/SOURCES.txt
