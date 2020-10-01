@@ -26,7 +26,6 @@ parseInput = function() {
     outputs$add_argument('-o','--output',required=T,help='Specify path to write the results')
     
     cmds <- parser$add_argument_group('as.loom function')
-    cmds$add_argument('--assay',help='Which assay you want to save?')
     args <- parser$parse_args()
     return(args)
 }
@@ -34,17 +33,23 @@ main = function(){
     args <- parseInput()
     seurat_obj <- readRDS(args$rds)
     if(args$RNA)seurat_obj <-seurat_obj$RNA
-
-    if(dim(seurat_obj$RNA@meta.features)[2] ==0){
-        seurat_obj <- FindVariableFeatures(object = seurat_obj,assay = 'RNA')
+    
+    seurat_obj <- replaceNA(seurat_obj=seurat_obj)
+    
+    for(assay in Assays(seurat_obj)){
+        if(dim(seurat_obj[[assay]]@meta.features)[2] ==0){
+            seurat_obj <- FindVariableFeatures(object = seurat_obj,assay = assay)
+        }
+        loom_obj <- as.loom(seurat_obj, 
+                            filename = paste(args$output,assay,'loom',sep='.'),
+                            overwrite=TRUE,
+                            verbose = TRUE,
+                            assay=assay)
+        # close loom files when done
+        loom_obj$close_all()
     }
 
-    seurat_obj <- replaceNA(seurat_obj=seurat_obj)
-    loom_obj <- as.loom(seurat_obj, filename = args$output,
-                        overwrite=TRUE,
-                        verbose = TRUE,assay=args$assay)
-    # close loom files when done
-    loom_obj$close_all()
+   
 }
 
 replaceNA = function(seurat_obj){
