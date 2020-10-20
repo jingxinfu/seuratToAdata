@@ -20,4 +20,5 @@ optional arguments:
 
 ## Issues might arise:
 1. UnicodeDecodeError: 'ascii' codec can't decode byte 0xcf in position 1: ordinal not in range(128).
-Solved by fixing the locale: https://stackoverflow.com/questions/51026315/how-to-solve-unicodedecodeerror-in-python-3-6/51027262#51027262
+    
+    Solved by fixing the locale: https://stackoverflow.com/questions/51026315/how-to-solve-unicodedecodeerror-in-python-3-6/51027262#51027262
